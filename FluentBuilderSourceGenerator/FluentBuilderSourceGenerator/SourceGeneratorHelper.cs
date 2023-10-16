@@ -6,9 +6,7 @@ internal static class SourceGeneratorHelper
 {
     public static string GenerateBuilderClass(ClassDefinition classDefinition)
     {
-        var sb = new StringBuilder();
-
-        sb.Append(@$"
+        return @$"
 using {classDefinition.Namespace};
 
 internal class {classDefinition.ClassName}Builder
@@ -25,9 +23,7 @@ internal class {classDefinition.ClassName}Builder
     {GetBuilderMethodDefinitions(classDefinition.ClassName, classDefinition.Properties)}
 
     }}
-");
-
-        return sb.ToString();
+";
     }
 
     private static string GetPrivateFields(List<PropertyDefinition> classDefinitionProperties)
