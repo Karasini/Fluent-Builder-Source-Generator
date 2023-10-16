@@ -61,7 +61,7 @@ internal class {classDefinition.ClassName}Builder
         foreach (var propertyDefinition in classDefinitionProperties)
         {
             sb.Append($@"
-    public {className}Builder With{propertyDefinition.Name}(string value)
+    public {className}Builder With{propertyDefinition.Name}({propertyDefinition.Type} value)
     {{
         _{propertyDefinition.Name} = value;
 
