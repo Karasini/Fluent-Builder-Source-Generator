@@ -5,7 +5,7 @@ internal static class FluentBuilderMarker
     public const string Attribute = @"
 
     [System.AttributeUsage(System.AttributeTargets.Class)]
-    public class FluentBuilderAttribute : System.Attribute
+    internal class FluentBuilderAttribute : System.Attribute
     {
     }";
 }

@@ -1,6 +1,4 @@
-
 namespace FluentBuilderDemo;
-
 
 [FluentBuilder]
 internal class User

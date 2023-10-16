@@ -53,10 +53,8 @@ public class FluentBuilderGenerator : IIncrementalGenerator
                 var attributeContainingTypeSymbol = attributeSymbol.ContainingType;
                 var fullName = attributeContainingTypeSymbol.ToDisplayString();
 
-                // Is the attribute the [EnumExtensions] attribute?
                 if (fullName == "FluentBuilderAttribute")
                 {
-                    // return the class for builder
                     return classDeclarationSyntax;
                 }
             }
@@ -65,8 +63,37 @@ public class FluentBuilderGenerator : IIncrementalGenerator
         return null;
     }
 
-    private static void Execute(Compilation sourceItem1, ImmutableArray<ClassDeclarationSyntax> sourceItem2,
+    private static void Execute(Compilation compilation, ImmutableArray<ClassDeclarationSyntax> classes,
         SourceProductionContext spc)
     {
+        var classDefinitions = GetPropertyDefinitions(classes, compilation).ToList();
+
+        foreach (var classDefinition in classDefinitions)
+        {
+            var source = SourceGeneratorHelper.GenerateBuilderClass(classDefinition);
+            spc.AddSource($"{classDefinition.ClassName}Builder.g.cs", SourceText.From(source, Encoding.UTF8));
+        }
+    }
+
+    private static IEnumerable<ClassDefinition> GetPropertyDefinitions(ImmutableArray<ClassDeclarationSyntax> classes,
+        Compilation compilation)
+    {
+        foreach (var classDeclarationSyntax in classes)
+        {
+            var semanticModel = compilation.GetSemanticModel(classDeclarationSyntax.SyntaxTree);
+            if (semanticModel.GetDeclaredSymbol(classDeclarationSyntax) is not INamedTypeSymbol classSymbol)
+            {
+                continue;
+            }
+
+            var members = classSymbol.GetMembers();
+
+            var properties = members.Where(x => x is IPropertySymbol)
+                .Cast<IPropertySymbol>()
+                .Select(x => new PropertyDefinition(x.Name, x.Type.Name))
+                .ToList();
+
+            yield return new ClassDefinition(classSymbol.Name, classSymbol.ContainingNamespace.ToString(), properties);
+        }
     }
 }
