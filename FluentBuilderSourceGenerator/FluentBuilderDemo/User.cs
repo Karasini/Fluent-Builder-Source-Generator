@@ -1,3 +1,5 @@
+using FluentBuilderNamespace;
+
 namespace FluentBuilderSourceGenerator;
 
 [FluentBuilder]
