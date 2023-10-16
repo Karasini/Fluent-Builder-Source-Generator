@@ -21,8 +21,7 @@ internal class {classDefinition.ClassName}Builder
     }}
 
     {GetBuilderMethodDefinitions(classDefinition.ClassName, classDefinition.Properties)}
-
-    }}
+}}
 ";
     }
 
@@ -31,7 +30,7 @@ internal class {classDefinition.ClassName}Builder
         var sb = new StringBuilder();
         foreach (var propertyDefinition in classDefinitionProperties)
         {
-            sb.Append($"private {propertyDefinition.Type} _{propertyDefinition.Name};");
+            sb.Append($"private {propertyDefinition.Type} _{propertyDefinition.Name};\n\t");
         }
 
         return sb.ToString();
@@ -43,7 +42,7 @@ internal class {classDefinition.ClassName}Builder
 
         foreach (var propertyDefinition in classDefinitionProperties)
         {
-            sb.Append($"{propertyDefinition.Name} = _{propertyDefinition.Name},");
+            sb.Append($"{propertyDefinition.Name} = _{propertyDefinition.Name},\n\t\t\t");
         }
 
         return sb.ToString();

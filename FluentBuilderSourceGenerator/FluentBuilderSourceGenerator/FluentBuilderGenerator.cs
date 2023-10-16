@@ -19,24 +19,23 @@ public class FluentBuilderGenerator : IIncrementalGenerator
 
         IncrementalValuesProvider<ClassDeclarationSyntax> classDeclarations =
             context.SyntaxProvider.CreateSyntaxProvider(
-                    predicate: (s, _) => IsSyntaxTargetForGeneration(s),
-                    transform: (ctx, _) => GetSemanticTargetForGeneration(ctx))
+                    predicate: (s, _) => IsClassWithAttribute(s),
+                    transform: (ctx, _) => GetClassWithBuilderAttribute(ctx))
                 .Where(x => x is not null)!;
 
-        IncrementalValueProvider<(Compilation Left, ImmutableArray<ClassDeclarationSyntax> Right)> compilationAndClasses
-            = context.CompilationProvider.Combine(classDeclarations.Collect());
+        var compilationAndClasses = context.CompilationProvider.Combine(classDeclarations.Collect());
 
         // Generate the source using the compilation and enums
         context.RegisterSourceOutput(compilationAndClasses,
             static (spc, source) => Execute(source.Item1, source.Item2, spc));
     }
 
-    private bool IsSyntaxTargetForGeneration(SyntaxNode syntaxNode)
+    private bool IsClassWithAttribute(SyntaxNode syntaxNode)
     {
         return syntaxNode is ClassDeclarationSyntax { AttributeLists.Count: > 0 };
     }
 
-    private ClassDeclarationSyntax? GetSemanticTargetForGeneration(GeneratorSyntaxContext ctx)
+    private ClassDeclarationSyntax? GetClassWithBuilderAttribute(GeneratorSyntaxContext ctx)
     {
         var classDeclarationSyntax = (ClassDeclarationSyntax)ctx.Node;
 
