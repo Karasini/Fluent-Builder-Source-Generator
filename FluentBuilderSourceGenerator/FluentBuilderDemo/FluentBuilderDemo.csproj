@@ -5,11 +5,12 @@
         <TargetFramework>net7.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <RootNamespace>FluentBuilderSourceGenerator</RootNamespace>
+        <RootNamespace>FluentBuilderDemo</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\FluentBuilderSourceGenerator\FluentBuilderSourceGenerator.csproj"  OutputItemType="Analyzer" ReferenceOutputAssembly="false"  />
+        <ProjectReference Include="..\FluentBuilderSourceGenerator\FluentBuilderSourceGenerator.csproj"
+                          OutputItemType="Analyzer" ReferenceOutputAssembly="false" PrivateAssets="all"/>
     </ItemGroup>
 
 </Project>

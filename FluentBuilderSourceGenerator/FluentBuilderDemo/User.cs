@@ -1,6 +1,6 @@
-using FluentBuilderNamespace;
 
-namespace FluentBuilderSourceGenerator;
+namespace FluentBuilderDemo;
+
 
 [FluentBuilder]
 internal class User
@@ -11,5 +11,4 @@ internal class User
 
 internal class Car
 {
-    
 }

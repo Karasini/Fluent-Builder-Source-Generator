@@ -54,7 +54,7 @@ public class FluentBuilderGenerator : IIncrementalGenerator
                 var fullName = attributeContainingTypeSymbol.ToDisplayString();
 
                 // Is the attribute the [EnumExtensions] attribute?
-                if (fullName == "FluentBuilderNamespace.FluentBuilderAttribute")
+                if (fullName == "FluentBuilderAttribute")
                 {
                     // return the class for builder
                     return classDeclarationSyntax;
